@@ -1,0 +1,121 @@
+-Seminario NLP TTC Vimercati. X
+-Scheletro webapp entro 1 aprile.
+-Entro inizio Maggio: Discorso di usabilità
+-Da maggio: miglioramenti all'app e scrittura.
+
+In due settimane
+-Autogestione Django e Docker backlog.
+-Guardo seminario NLP.
+-incontro con Manuel per spiegazione Modello.
+
+Successivamente:
+-Incontro con Veronica etc.
+-Lezione 7 dicembre corso AI TTC "Seminario NLP"
+
+SENSO DELLA WEBAPP:
+Similarità = le parole vengono utilizzate in contesti simili
+Se due parole sono utilizzate in contesti simili hanno una relazione semantica.
+Word2Vec = parole in un contesto simile hanno un vettore simile
+Esempio, tutti gli animali hanno unj vettore simikle
+Sliding windows
+Dataset con n input (parole prima e/o dopo) e un output
+Guardo input (membri del contesto) in comune
+
+Si creano dele coppie parol-contesto a partire dal dataset.
+
+Si vuole un modello:
+input: parola
+output: valore per ogni altra paroa nel vvocabolario
+		tanto più alto quanto più il valore compare nel contesto.
+		0 su tutti a parte quelli del contesto.
+		in realtà non sono 1 perchè sono modelli matematici.
+
+Ogni parola compare diverse volte con diversi contesti
+		
+Guardo video speigazione reti neurali.
+
+
+
+NO STATISTICA!!!
+
+PROBLEMI WORD2VEC:
+
+Rete neurale = inizializzazione casuale. Lo stesso corpus nello stesso ordine da risultati diversi.
+Esempio: 2 cartografi disegnano la cartina dell'inghilterra senza bussola:
+orientat ain modo diverso.
+Word embedding è identico.
+La similarità tra vettori sarà molto simile, ma i due vettori sono piazzati nello spazio
+in maniere diverse.
+GROSSO PROBLEMA quando si vogliono rappresentare rappresentazioni di corpus diversi.
+Se vogliamo usare i modelli per comparare è un problema
+Tutto questo ambito è nato dopo i word embeddings 
+Vuole capire come we gestisce i bias 8inclinazsioni)
+Si possono o analizzare quanto bias contengono gli aspazi vettoriali
+oppure analizzare il linguaggio
+Quantifichi quanto un linguaggio è biased rispetto a certi pu nti di vista.
+Sottolinei fenomeni umani
+Se si vogliono confrontare modelli di corpora diversi, il primo problema è allinearli:
+ALLINEAMENTO A POSTERIORI
+L'altro modo (Quello di Bianchi) è ragionare al contrario:
+nativamente già allineato.
+Modello per ogni corpus preventivamente allineato.
+
+Diversi corpus = slice (anche temporale)
+CADE prende tutte le slices e genera un corpus unico:
+COMPASS 
+a partire dal compass traina il primo modello-> Ha i bias di tutti i corpus
+Linguaggio generico, ha una "media" dei bias
+Esempio:
+le parole che non hanno cambiato significato nel tempo avranno contesti più o meno simili.
+una parola che ha cambiato di significato (tipo apple) avranno un significato che sta nel mezzo
+Il primo training crea un modello che ufnge da inizializzazione a tutti gli atlri modelli (per ogni slice)
+PUNTO DI PARTENZA.
+INIZIALIZZAZIONE = problema che ha detto prima.
+In questo modo non sono inizializzati in ,mpodo casuale, ma n modo sensato.
+Ogni modello viene poi riaddrestato su uno slice 8esempio 1920/2020)
+Dopo il secondo training la parola che cambia di singificato si sposterà un po' di più
+verso il punto.
+Sto cercando di dare un punto di riferimento in modo da effettuare una 
+
+Avendo un modello che mi permette di quantificare le differenze tra un lessico e l'altro
+etc.
+
+SVILUPPARE UNA WEBAPP IN MODO CHE PERSONE SENZSA COMPETENZE IN PROGRAMMAZIONE P?OSSANO USARLA.
+1) Addestrare modelli
+2) Fare analisi su modelli addestrati
+
+Fare fullstack ma se fa schifo il frontend va bene lo stesso.
+Incapsulare righe di codice in una funzione che da front end permetta alle persone di interagire.
+
+Singole funzionalità core sono:
+1.1) Avere una pagina che permetta di caricare i corpus e li salvi da qualche parte nelle cartelle della webapp
+	Ad ogni ogni corpus deve essere associata una descrizione:
+		path 
+		Nome = diverso da corpus.txt
+		Descrizione
+
+1.2) pagina che visualizzi lista di tutti i corpus con nome e descrizione
+	NO HARDCODED HTML, faccio solo funzione che ritorna i valori
+	
+	Extra: rinomina, modificare attributi descirizione/aggiornare il corpus(cioè cambiare path)
+	
+2) Addestramento del modello:
+	Seleziono i corpus (quanti ne voglio, da 1 a n) e ho una funzione che prende come input la lista di path
+	genera un corpus unico addestra il modello sul corpus unico e poi genera un modello per ogni slice partendo
+	dal modello grande.
+
+	https://github.com/vinid/cade -> Addestra compass e addestra slice
+	
+	Salva modelli inserendo il nome che in automatico è il nome del corpus_chiave_di_allineamento, 
+	ma di base posso cambiarlo.
+	e con quali modelli è allineato (valore comune a tutti gli slice, chiave di allineamento)
+	
+	
+3) Selezione di modelli e feedback modello istanziato (in quanto classe - word2back.load)
+
+Entro primo aprile!
+
+https://www.youtube.com/watch?v=aircAruvnKk&t=992s&ab_channel=3Blue1Brown ->Guardo primi 4 capitoli
+
+https://jalammar.github.io/illustrated-word2vec/
+
