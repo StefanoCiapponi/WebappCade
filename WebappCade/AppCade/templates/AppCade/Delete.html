@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Delete</title>
+    </head>
+    <body>
+        {%if model%}
+        <form action="{% url 'deletemodel' %}" method='post' enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <input type="submit" value="Delete">
+        </form>
+        {% endif %}
+        {%if document%}
+        <form action="{% url 'deletedocument' %}" method='post' enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <input type="submit" value="Delete">
+        </form>
+        {% endif%}
+        <a href="{% url 'index' %}">Back</a>
+    </body>
+</html>

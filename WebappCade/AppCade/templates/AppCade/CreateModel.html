@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Create Model</title>
+    </head>
+    <body>
+        <p>Default name: {{key}}</p>
+        <form action="{% url 'createmodel' %}" method='post' enctype="multipart/form-data">
+            
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <input type="submit" value="Create">
+        </form>
+        <a href="{% url 'index' %}">Back</a>
+    </body>
+</html>
