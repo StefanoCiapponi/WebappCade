@@ -4,6 +4,7 @@
         <title>Uploaded Documents</title>
     </head>
     <body>
+        {% include "AppCade/navbar.html" %}
         {% if documents %}
         <ul>
             {% for document in documents %}
@@ -21,6 +22,5 @@
         {% else %}
             <p>No Documents.</p>
         {% endif %}
-        <a href="{% url 'index' %}">Back</a>
     </body>
 </html>

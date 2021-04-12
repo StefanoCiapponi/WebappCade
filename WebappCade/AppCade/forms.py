@@ -11,7 +11,7 @@ class DocumentForm(ModelForm):
         fields = ['name', 'docfile', 'description']
 
 class SelectDocumentsForm(Form):
-    name = forms.CharField(max_length=40)
+    name = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'id': 'name', 'onkeyup':'checknames()'}))
     #document_names = [(str(document.id), str(document.name))  for document in Document.objects.all() if "compass" not in document.name]
     documents=forms.ModelMultipleChoiceField(queryset=Document.objects.all().filter(~Q(name__contains="compass")), widget=forms.CheckboxSelectMultiple)
     #documents = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,

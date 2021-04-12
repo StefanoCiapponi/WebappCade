@@ -1,17 +1,79 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Create Model</title>
+        <title>WebAppCade: Models</title>
     </head>
     <body>
-        <p>Default name: {{key}}</p>
-        <form action="{% url 'createmodel' %}" method='post' enctype="multipart/form-data">
-            
-            {% csrf_token %}
-            {{ form.as_p }}
-            
-            <input type="submit" value="Create">
-        </form>
-        <a href="{% url 'index' %}">Back</a>
+        
+        <div>
+          {% include "AppCade/navbar.html" %}
+        </div>
+          {% include "AppCade/createModelModalError.html" %}
+        <div class="wrapper">
+          <div class="leftcolumn">
+            <h2>CREATE MODEL:</h2>
+            <!-- <p>Default name: {{key}}</p> -->  
+            <form action="{% url 'createmodel' %}" method='post' enctype="multipart/form-data">
+              <h id='result'></h>
+              {% csrf_token %}
+              {{ documentForm.as_p }}
+              
+                <input type="submit" value="Create" id='submit'>
+            </form>
+          </div>
+          <div class=rightcolumn>
+            <h2>DELETE MODEL:</h2>
+            <form action="{% url 'deletemodel' %}" method='post' enctype="multipart/form-data">
+              
+              {% csrf_token %}
+              {{ deleteModelForm.as_p }}
+              
+              <input type="submit" value="Delete">
+          </form>
+          </div>
+        </div>
     </body>
 </html>
+
+<script>
+
+    // Get the modal
+  var modal = document.getElementById("myModal");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+    function checknames(){
+      var data = JSON.parse("{{names|escapejs}}");
+      var input = document.getElementById("name").value;
+      var result = document.getElementById("result");
+      var submit = document.getElementById("submit");
+      var flag = 1;
+      for(var x in data){
+        if(input.toLowerCase()==data[x].toLowerCase()){
+          result.innerHTML = data[x];
+          flag=0;
+        }
+      }
+      if(flag){
+        submit.disabled = false;
+      }
+      else{
+        submit.disabled = true;
+        modal.style.display = "block";
+      }
+    }
+  </script>

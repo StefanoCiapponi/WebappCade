@@ -1,0 +1,73 @@
+<nav class="skew-menu">
+    <ul>
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'uploaddocument' %}">Documents</a></li>
+	<li><a href="{% url 'createmodel' %}">Models</a></li>
+    </ul>
+</nav>
+
+<style>
+body {
+	 font-family: Roboto Neue, Roboto, sans-serif;
+	 background: teal;
+     color: white;
+}
+ .skew-menu {
+	 text-align: left;
+	 margin-top: 0em;
+	 margin-left: 0em;
+}
+ .skew-menu ul {
+	 display: inline-block;
+	 margin: 0;
+	 padding: 0;
+	 list-style: none;
+}
+ .skew-menu ul li {
+	 background: #fff;
+	 float: left;
+	 border-right: 1px solid #eee;
+	 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+	 text-transform: uppercase;
+	 color: #555;
+	 font-weight: bolder;
+	 transition: all 0.2s linear;
+}
+ .skew-menu ul li:first-child {
+	 border-radius: 7px 0 0 7px;
+}
+ .skew-menu ul li:last-child {
+	 border-right: none;
+	 border-radius: 0 7px 7px 0;
+}
+ .skew-menu ul li:hover {
+	 background: #eee;
+	 color: tomato;
+}
+ .skew-menu ul li a {
+	 display: block;
+	 padding: 1em 2em;
+	 color: inherit;
+	 text-decoration: none;
+}
+
+.wrapper {
+         width: 100%;
+         margin: 0 auto;
+    }
+    .leftcolumn, .rightcolumn {
+        color: white;
+    }
+    .leftcolumn {
+         width: 50%;
+		 float: left;
+		 min-height:100%;
+		 left:0;
+    }
+    .rightcolumn {
+         width: 50%;
+		 float: left;
+		 right:0;
+		 min-height:100%;
+    }
+</style>

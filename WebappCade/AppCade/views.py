@@ -11,8 +11,9 @@ from .forms import DeleteDocumentForm, DocumentForm, SelectDocumentsForm, Delete
 import os
 from django.conf import settings
 from django.core.files import File
+from django.db.models import Q
+from json import dumps
 
-# Create your views here.
 def CreateModel(request):
     d = CadeModelManager.objects.aggregate(models.Max('id')) #da 8 non so perchè
     key = d['id__max']
@@ -20,7 +21,11 @@ def CreateModel(request):
         key = 1
     else:
         key=key+1
-    
+    cmms = CadeModelManager.objects.all()
+    names=[]
+    for cmm in cmms:
+        names.append(cmm.name)
+
     if request.method == 'POST':
         form = SelectDocumentsForm(request.POST)
         #form
@@ -71,15 +76,21 @@ def CreateModel(request):
                                 cademodelmanager=cmm,
                                 name=model_name)
                 cm.save()
+
+            return HttpResponseRedirect(reverse('createmodel'))
             
     else:
         #form
-        form = SelectDocumentsForm()
+        documentForm = SelectDocumentsForm()
+        deleteModelForm = DeleteModelForm()
         #print(form.as_ul)
+
+    names=dumps(names)
+
     return render(
         request,
         'AppCade/CreateModel.html',
-        {'form': form, 'key':key}
+        {'documentForm': documentForm, 'deleteModelForm':deleteModelForm, 'key':key, 'names':names}
     )
 
 def DeleteModel(request):
@@ -90,6 +101,10 @@ def DeleteModel(request):
             cademodels=CadeModel.objects.all().filter(cademodelmanager__in=cmms)
             print(cademodels)
             for cm in cademodels:
+                if cm.name=="compass.model":
+                    d = cm.txt_file
+                    os.system("rm "+d.docfile.path)
+                    d.delete()
                 print(cm)
                 os.system("rm "+cm.modfile.path)
                 cm.delete()
@@ -99,18 +114,12 @@ def DeleteModel(request):
 
             print(cademodels)
             #Cancello cogni CadeModelManager, ogni CadeModel che ne fa parte e ogni file .model associato
-    else:
-        form = DeleteModelForm()
+            
         
-    return render(
-        request,
-        'AppCade/Delete.html',
-        {'form':form, 'model':True,
-        'document':False}
-    )
+    return HttpResponseRedirect(reverse('createmodel'))
 
 def UploadedDocuments(request):
-    documents = Document.objects.all()
+    documents = Document.objects.all().filter(~Q(name__contains="compass"))
     return render(request, 'AppCade/UploadedDocuments.html', {'documents':documents})
 
 def DeleteDocument(request):
@@ -126,15 +135,8 @@ def DeleteDocument(request):
             #    print(cm)
             #    os.system("rm "+cm.modfile.path)
             #    cm.delete()
-    else:
-        form = DeleteDocumentForm()
         
-    return render(
-        request,
-        'AppCade/Delete.html',
-        {'form':form, 'model':False,
-        'document':True}
-    )
+    return HttpResponseRedirect(reverse('uploaddocument'))
 
 def UploadDocument(request):
     #handle file upload
@@ -147,16 +149,16 @@ def UploadDocument(request):
             #redirect to the document list after POST
             return HttpResponseRedirect(reverse('uploaddocument'))
     else:
-        form = DocumentForm()
-
+        documentForm = DocumentForm()
+        deleteDocumentForm = DeleteDocumentForm()
     #Load documents for the list page
-    documents = Document.objects.all()  
+    documents = Document.objects.all().filter(~Q(name__contains="compass"))
 
     #render list page with documents and the form
     return render(
         request,
         'AppCade/list.html',
-        {'documents':documents, 'form':form}
+        {'documents':documents, 'documentForm':documentForm, 'deleteDocumentForm': deleteDocumentForm}
     )
 
 def index(request):

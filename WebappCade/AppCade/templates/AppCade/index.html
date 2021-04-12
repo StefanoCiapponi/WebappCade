@@ -1,9 +1,10 @@
 <html>
+    <head>
+        <meta charset="utf-8">
+        <title>WebAppCade: Home</title>
+    </head>
     <body>
-        <li><a href="{{request.path}}uploaddocument/">Upload a File</a></li>
-        <li><a href="{{request.path}}uploadedfiles/">Show Uploaded Files</a></li>
-        <li><a href="{{request.path}}createmodel/">Create Model</a></li>
-        <li><a href="{{request.path}}deletemodel/">Delete Model</a></li>
-        <li><a href="{{request.path}}deletedocument/">Delete Document</a></li>
+        {% include "AppCade/navbar.html" %}
+        <H1>APPCADE</H1>
     </body>
 </html>

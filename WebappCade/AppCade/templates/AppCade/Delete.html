@@ -4,6 +4,7 @@
         <title>Delete</title>
     </head>
     <body>
+        {% include "AppCade/navbar.html" %}
         {%if model%}
         <form action="{% url 'deletemodel' %}" method='post' enctype="multipart/form-data">
             
@@ -22,6 +23,5 @@
             <input type="submit" value="Delete">
         </form>
         {% endif%}
-        <a href="{% url 'index' %}">Back</a>
     </body>
 </html>

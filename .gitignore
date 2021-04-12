@@ -1,2 +1,5 @@
 Webapp
 *.pyc
+WebappCade/media
+WebappCade/static
+WebappCade/staticfies_dir
